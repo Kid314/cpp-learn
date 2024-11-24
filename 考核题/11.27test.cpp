@@ -1,3 +1,5 @@
+#include<iostream>
+#include<cstring>
 //C/C++:
 // -------------------- 数据设计 --------------------
 /*
@@ -115,11 +117,12 @@ int main()
 }
 
 void init(){
-    //在此处完成代码
+    std::memset(map,0,sizeof(map));
+    flag=0;
 }
 
 int isWin(int x, int y){
-    //在此处完成代码
+    
     return 0;
 }
 
