@@ -122,10 +122,12 @@ void init(){
 }
 
 int isWin(int x, int y){
-    int x_min=x-5,x_max=x+5;
-    int y_min=y-5,y_max=y+5;
-    int count=0;
-    int army;
+    if(flag<=7)//五子棋，前四步都不需要判断，不可能赢
+        return 0;
+    int x_min=x-4,x_max=x+4;//需要判断的行数的范围
+    int y_min=y-4,y_max=y+4;//需要判断的列数的范围
+    int count=0;//连续的子数
+    int army;//敌对棋子，辅助判断用
     if(flag%2==0)
         army=2;
     else
@@ -140,74 +142,70 @@ int isWin(int x, int y){
     if(y_max>18)
         y_max=18;
 
-    for(int i=x_min;i<=x_max;++i)
+    for(int i=x_min;i<=x_max;++i)//对于竖着一列是否为5个子做判断的判断
     {
         count++;
         if(map[i][y]==0||map[i][y]==army)
         {
             count=0;
         }
+        if(count==5)
+        {
+            if(flag%2==0)
+                return 1;
+            else
+                return 2;
+        }
     }
-    if(count==5)
-    {
-        if(flag%2==0)
-            return 1;
-        else
-            return 2;
-    }
-    count=0;
 
-    for(int i=y_min;i<=y_max;++i)
+    for(int i=y_min;i<=y_max;++i)//对于横着一行是否为5个子做判断的判断
     {
         count++;
         if(map[x][i]==0||map[x][i]==army)
         {
             count=0;
         }
+        if(count==5)
+        {
+            if(flag%2==0)
+                return 1;
+            else
+                return 2;
+        }
     }
-    if(count==5)
-    {
-        if(flag%2==0)
-            return 1;
-        else
-            return 2;
-    }
-    count=0;
 
-    for(int i=x_min,j=y_min;i<=x_max,j<y_max;++i,++j)
+    for(int i=x_min,j=y_min;i<=x_max,j<y_max;++i,++j)//对于从左上到右下是否为5个子做判断的判断
     {
         count++;
         if(map[i][j]==0||map[i][j]==army)
         {
             count=0;
         }
+        if(count==5)
+        {
+            if(flag%2==0)
+                return 1;
+            else
+                return 2;
+        }
     }
-    if(count==5)
-    {
-        if(flag%2==0)
-            return 1;
-        else
-            return 2;
-    }
-    count=0;
-
-    for(int i=x_min,j=y_max;i<=x_max,j>=y_min;++i,--j)
+    
+    for(int i=x_min,j=y_max;i<=x_max,j>=y_min;++i,--j)//对于左下到右上是否为5个子做判断的判断
     {
         count++;
         if(map[i][y]==0||map[i][y]==army)
         {
             count=0;
         }
+        if(count==5)
+        {
+            if(flag%2==0)
+                return 1;
+            else
+                return 2;
+        }
     }
-    if(count==5)
-    {
-        if(flag%2==0)
-            return 1;
-        else
-            return 2;
-    }
-    count=0;
-
+    
     return 0;
 }
 
@@ -225,15 +223,15 @@ int playerMove(int x, int y){
 }
 
 void menuView(){
-    std::cout<<"---------------------------\n";
-    std::cout<<"1.开始游戏\n";
-    std::cout<<"2.进入设置\n";
-    std::cout<<"3.退出游戏\n";
-    std::cout<<"---------------------------\n";
-
-    int choice;
+    int choice;//玩家所填的选项
     while(1)
     {
+        std::cout<<"---------------------------\n";
+        std::cout<<"1.开始游戏\n";
+        std::cout<<"2.进入设置\n";
+        std::cout<<"3.退出游戏\n";
+        std::cout<<"---------------------------\n";
+
         std::cin>>choice;
         switch(choice)
         {
@@ -264,7 +262,7 @@ void gameView_ShowMap(){
 }
 
 void winView(){
-    char ch;
+    char ch;//接收输入
     if(flag%2==0)
     {
         std::cout<<"黑棋获胜!\n";
@@ -275,6 +273,7 @@ void winView(){
         std::cout<<"白棋获胜!\n";
         std::cout<<"一共进行了:"<<flag+1<<"步\n";
     }
+    std::cout<<"按任意键返回";
     std::cin>>ch;
 }
 
@@ -283,16 +282,23 @@ void gameView(){
     init();
     while(1)
     {
-        gameView_ShowMap();
-        std::cin>>x>>y;
+        if(flag==0)
+            gameView_ShowMap();
+
+        std::cout<<"请输入坐标:\n";
+        std::cin>>x>>y;//获取输入
 
         if(!playerMove(x,y))
             continue;
+
+        gameView_ShowMap();
+
         if(isWin(x,y))
         {
             winView();
             break;
         }
+
         flag++;
     }
 }
