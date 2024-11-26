@@ -122,26 +122,177 @@ void init(){
 }
 
 int isWin(int x, int y){
-    
+    int x_min=x-5,x_max=x+5;
+    int y_min=y-5,y_max=y+5;
+    int count=0;
+    int army;
+    if(flag%2==0)
+        army=2;
+    else
+        army=1;
+
+    if(x_min<0)
+        x_min=0;
+    if(x_max>18)
+        x_max=18;
+    if(y_min<0)
+        y_min=0;
+    if(y_max>18)
+        y_max=18;
+
+    for(int i=x_min;i<=x_max;++i)
+    {
+        count++;
+        if(map[i][y]==0||map[i][y]==army)
+        {
+            count=0;
+        }
+    }
+    if(count==5)
+    {
+        if(flag%2==0)
+            return 1;
+        else
+            return 2;
+    }
+    count=0;
+
+    for(int i=y_min;i<=y_max;++i)
+    {
+        count++;
+        if(map[x][i]==0||map[x][i]==army)
+        {
+            count=0;
+        }
+    }
+    if(count==5)
+    {
+        if(flag%2==0)
+            return 1;
+        else
+            return 2;
+    }
+    count=0;
+
+    for(int i=x_min,j=y_min;i<=x_max,j<y_max;++i,++j)
+    {
+        count++;
+        if(map[i][j]==0||map[i][j]==army)
+        {
+            count=0;
+        }
+    }
+    if(count==5)
+    {
+        if(flag%2==0)
+            return 1;
+        else
+            return 2;
+    }
+    count=0;
+
+    for(int i=x_min,j=y_max;i<=x_max,j>=y_min;++i,--j)
+    {
+        count++;
+        if(map[i][y]==0||map[i][y]==army)
+        {
+            count=0;
+        }
+    }
+    if(count==5)
+    {
+        if(flag%2==0)
+            return 1;
+        else
+            return 2;
+    }
+    count=0;
+
     return 0;
 }
 
 int playerMove(int x, int y){
-    //在此处完成代码
+    if(map[x][y]!=0)
+    {
+        std::cout<<"已经有棋子了！！\n";
+        return 0;
+    }
+    if(flag%2==0)
+        map[x][y]=1;
+    else
+        map[x][y]=2;
+    return 1;
 }
 
 void menuView(){
-    //在此处完成代码
+    std::cout<<"---------------------------\n";
+    std::cout<<"1.开始游戏\n";
+    std::cout<<"2.进入设置\n";
+    std::cout<<"3.退出游戏\n";
+    std::cout<<"---------------------------\n";
+
+    int choice;
+    while(1)
+    {
+        std::cin>>choice;
+        switch(choice)
+        {
+            case 1:
+            {
+                gameView();
+            }
+            case 2:
+            {
+                std::cout<<"敬请期待!\n";
+                break;
+            }
+            case 3:
+            default: exit(0);
+        }
+    }
 }
 
 void gameView_ShowMap(){
-    //在此处完成代码
+    for(int i=0;i<19;++i)
+    {
+        for(int j=0;j<19;++j)
+        {
+            std::cout<<map[i][j]<<" ";
+        }
+        std::cout<<"\n";
+    }
 }
 
 void winView(){
-    //在此处完成代码
+    char ch;
+    if(flag%2==0)
+    {
+        std::cout<<"黑棋获胜!\n";
+        std::cout<<"一共进行了:"<<flag+1<<"步\n";
+    }
+    else
+    {
+        std::cout<<"白棋获胜!\n";
+        std::cout<<"一共进行了:"<<flag+1<<"步\n";
+    }
+    std::cin>>ch;
 }
 
 void gameView(){
-    //在此处完成代码
+    int x,y;
+    init();
+    while(1)
+    {
+        gameView_ShowMap();
+        std::cin>>x>>y;
+
+        if(!playerMove(x,y))
+            continue;
+        if(isWin(x,y))
+        {
+            winView();
+            break;
+        }
+        flag++;
+    }
 }

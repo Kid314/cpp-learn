@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "g:/code_new/c++/考核题",
-      "program": "g:/code_new/c++/考核题/build/Debug/outDebug",
+      "cwd": "g:/code_new/c++/01first_test",
+      "program": "g:/code_new/c++/01first_test/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
