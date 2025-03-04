@@ -10,7 +10,6 @@ typedef struct node
 }Node,*pNode;
 
 std::vector<pNode> character;
-std::vector<char> code;
 
 pNode linktree(Node* tree_a,Node* tree_b)
 {
@@ -59,7 +58,7 @@ pNode inithaftree()
     return character.back();
 }
 
-void coding(char ch)
+void coding(char ch,std::vector<char> code)
 {
     FILE* fp=fopen("codefile","a");
     if (fp==NULL) {
@@ -75,24 +74,25 @@ void coding(char ch)
     fclose(fp);
 }
 
-void forepost(pNode head)
+void forepost(pNode head,std::vector<char> code)
 {
     if(head->ch!='!')
     {
-        coding(head->ch);
+        coding(head->ch,code);
         return ;
     }
     code.push_back('0');
-    forepost(head->left);
+    forepost(head->left,code);
     code.pop_back();
     code.push_back('1');
-    forepost(head->right);
+    forepost(head->right,code);
 }
 
 int main()
 {
+    std::vector<char> code;
     read();
     pNode mynode=inithaftree();
-    forepost(mynode);
+    forepost(mynode,code);
     return 0;
 }
