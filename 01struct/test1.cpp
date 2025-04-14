@@ -92,10 +92,39 @@ AVLTree InsertAVL(AVLTree root,int x)
             }
         }
     }
+    if(root!=NULL)
     root->h=max(get_h(root->l),get_h(root->r))+1;
     return root;
 }
+AVLTree Delete(AVLTree root,int k)
+{
+    if(root->data==k)
+    {
+        if(root->l!=NULL&&root->r!=NULL)
+        {
+            AVLNode* p=root->l;
+            while(p->r!=NULL)
+            {
+                p=p->r;
+            }
+            root->data=p->data;
+            root->l=Delete(root->l,p->data);
 
+        }
+        else
+        {
+
+        }
+    }
+    else if(k<root->data)
+    {
+
+    }
+    else
+    {
+        root->r=Delete(root->r,k);    
+    }
+}
 void Inorder(AVLTree root)
 {
     if(root==NULL)
